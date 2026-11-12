@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,52 +11,108 @@
   :root {
     --brand-800: #006b30;
     --brand-900: #004720;
-    --brand-50: #f0faf4;
     --accent: #f8f010;
     --ink: #14231a;
     --muted: #4a5a50;
     --bg: #ffffff;
+    --line: rgba(0, 0, 0, .12);
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #0d1a12; --ink: #eaf5ee; --muted: #b6c9bc; --brand-50: #12261a; --brand-800: #4fd18a; }
+    :root { --bg: #0d1a12; --ink: #eaf5ee; --muted: #b6c9bc; --brand-800: #4fd18a; --line: rgba(255, 255, 255, .18); }
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    margin: 0; min-height: 100vh; display: flex; flex-direction: column;
     background: var(--bg); color: var(--ink);
     font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   }
-  main { width: 100%; max-width: 640px; padding: 32px 16px; text-align: center; }
+  /* Show only the active language */
+  html[data-lang="en"] [lang="vi"], html[data-lang="vi"] [lang="en"] { display: none; }
+
+  header { display: flex; justify-content: flex-end; padding: 12px 16px; }
+  .switch { display: inline-flex; border: 1px solid var(--brand-800); border-radius: 999px; overflow: hidden; }
+  .switch button {
+    appearance: none; border: 0; background: transparent; color: var(--brand-800);
+    font: inherit; font-weight: 600; font-size: .9rem; padding: 6px 16px; cursor: pointer; min-height: 36px;
+  }
+  .switch button[aria-pressed="true"] { background: var(--brand-800); color: #fff; }
+  @media (prefers-color-scheme: dark) { .switch button[aria-pressed="true"] { color: #0d1a12; } }
+  .switch button:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .box { width: 100%; max-width: 640px; text-align: center; }
   img { width: 120px; height: 120px; }
   h1 { font-size: 1.75rem; line-height: 1.25; margin: 20px 0 8px; color: var(--brand-800); }
   p { margin: 8px 0; color: var(--muted); }
-  .lang { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,.12); }
-  .lang h2 { font-size: 1.15rem; margin: 0 0 4px; color: var(--ink); }
-  .contact { margin-top: 18px; color: var(--ink); }
-  .contact a { color: var(--brand-800); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   .badge {
     display: inline-block; margin-top: 16px; padding: 6px 14px; border-radius: 999px;
     background: var(--accent); color: #0b3d1e; font-weight: 600; font-size: .9rem;
   }
+
+  footer { border-top: 1px solid var(--line); padding: 20px 16px; text-align: center; }
+  footer p { margin: 4px 0; color: var(--ink); }
+  footer a { color: var(--brand-800); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  footer .sep { margin: 0 8px; color: var(--muted); }
 </style>
 </head>
 <body>
-<main>
-  <img src="logo.png" width="120" height="120" alt="Hanoi Green Tour logo">
-  <h1>Our new website is coming soon</h1>
-  <p>Hanoi Green Tour is rebuilding its website to bring you tours and experiences across Vietnam, Laos, Thailand, Cambodia and the Philippines.</p>
-  <span class="badge">Upgrade in progress</span>
-  <p class="contact">To book or ask about a trip, contact us:<br>
-    <a href="tel:+84912291655">0912 291 655</a> &middot;
-    <a href="mailto:travel@hanoigreentour.com">travel@hanoigreentour.com</a></p>
+<header>
+  <div class="switch" role="group" aria-label="Language / Ngôn ngữ">
+    <button type="button" id="btn-en" aria-pressed="true">EN</button>
+    <button type="button" id="btn-vi" aria-pressed="false">VI</button>
+  </div>
+</header>
 
-  <section class="lang" lang="vi">
-    <h2>Website mới sắp ra mắt</h2>
-    <p>Hanoi Green Tour đang xây dựng lại website với các tour và trải nghiệm tại Việt Nam, Lào, Thái Lan, Campuchia và Philippines. Xin cảm ơn quý khách đã chờ đợi.</p>
-    <p class="contact">Đặt tour hoặc cần tư vấn, xin liên hệ:<br>
-      <a href="tel:+84912291655">0912 291 655</a> &middot;
-      <a href="mailto:travel@hanoigreentour.com">travel@hanoigreentour.com</a></p>
-  </section>
+<main>
+  <div class="box">
+    <img src="logo.png" width="120" height="120" alt="Hanoi Green Tour logo">
+
+    <div lang="en">
+      <h1>Our new website is coming soon</h1>
+      <p>Hanoi Green Tour is rebuilding its website to bring you tours and experiences across Vietnam, Laos, Thailand, Cambodia and the Philippines.</p>
+      <span class="badge">Upgrade in progress</span>
+    </div>
+
+    <div lang="vi">
+      <h1>Website mới sắp ra mắt</h1>
+      <p>Hanoi Green Tour đang xây dựng lại website với các tour và trải nghiệm tại Việt Nam, Lào, Thái Lan, Campuchia và Philippines. Xin cảm ơn quý khách đã chờ đợi.</p>
+      <span class="badge">Đang nâng cấp</span>
+    </div>
+  </div>
 </main>
+
+<footer>
+  <p lang="en">To book or ask about a trip, contact us:</p>
+  <p lang="vi">Đặt tour hoặc cần tư vấn, xin liên hệ:</p>
+  <p>
+    <a href="tel:+84912291655">0912 291 655</a><span class="sep">&middot;</span><a href="mailto:travel@hanoigreentour.com">travel@hanoigreentour.com</a>
+  </p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var en = document.getElementById('btn-en');
+  var vi = document.getElementById('btn-vi');
+  function set(lang, save) {
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    en.setAttribute('aria-pressed', String(lang === 'en'));
+    vi.setAttribute('aria-pressed', String(lang === 'vi'));
+    document.title = lang === 'vi'
+      ? 'Hanoi Green Tour – Website đang nâng cấp'
+      : 'Hanoi Green Tour – Website upgrade in progress';
+    if (save) { try { localStorage.setItem('lang', lang); } catch (e) {} }
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  if (saved !== 'en' && saved !== 'vi') {
+    saved = (navigator.language || '').toLowerCase().indexOf('vi') === 0 ? 'vi' : 'en';
+  }
+  set(saved, false);
+  en.addEventListener('click', function () { set('en', true); });
+  vi.addEventListener('click', function () { set('vi', true); });
+})();
+</script>
 </body>
 </html>
